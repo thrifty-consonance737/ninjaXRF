@@ -73,7 +73,8 @@ def axfr(domain, ns_ip, ns_domain):
 		print(f"\nZone Transfer ({FRT+AM}medium{RST})\nDomain: {domain} NS_SERVER: {ns_domain}\nCommand to use: {FRT+VD}dig axfr {domain} @{ns_domain}{RST}\n")
 
 		if args.exploit:
-			print(f"{AZ}[VERBOSE]{VR} [EXPLOIT]{RST} {domain}", file=sys.stderr)
+			if args.verbose:
+				print(f"{AZ}[VERBOSE]{VR} [EXPLOIT]{RST} {domain}", file=sys.stderr)
 			for name, node in zone.nodes.items():
 				print(zone[name].to_text(name))
 
