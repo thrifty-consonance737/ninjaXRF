@@ -35,9 +35,11 @@ identify exposed zone data during reconnaissance and security assessments.
 ## 📥 Installation
 
 ```bash
-git clone https://github.com/yourname/ninjaxfr.git
+git clone https://github.com/yHunterDep/ninjaXRF/
 cd ninjaxfr
-pip install dnspython
+pip install -r requirements.txt
+chmod +x ninjaxfr
+./ninjaxfr -h
 ```
 
 ---
@@ -45,7 +47,7 @@ pip install dnspython
 ## 🚀 Usage
 
 ```bash
-python ninjaxfr.py [options]
+./ninjaxfr -h
 ```
 
 ---
@@ -53,12 +55,17 @@ python ninjaxfr.py [options]
 ## 📌 Options
 
 ```text
--t, --target        Target domain to scan
--c, --concurrent    Number of threads (default: 25)
--xpl, --exploit     Dump full DNS zone if vulnerable
--o, --output        Save results to a file
--v, --verbose       Enable detailed output
--s, --silent        Disable banner
+  -h, --help            show this help message and exit
+  -t TARGET, --target TARGET
+                        Target domain to scan
+  -xpl, --exploit       Dump full zone data if AXFR is successful.
+  -o OUTPUT, --output OUTPUT
+                        Save results to a specified file.
+  -c CONCURRENT, --concurrent CONCURRENT
+                        Number of concurrent threads (default: 25).
+  -v, --verbose         Shows detailed information about each step
+                        of the scanning process..
+  -s, --silent          Skip Banner mode
 ```
 
 ---
