@@ -1,0 +1,90 @@
+#!/usr/bin/python3
+
+import subprocess, argparse, socket, sys, re
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import dns.query
+import dns.zone
+
+epilog = """
+USAGE:
+Simple scan
+	$ ./ninjaxfr -t zonetransfer.me
+Set concurrents
+	$ ./ninjaxfr -t zonetransfer.me -c 70
+Scan file with domains
+	$ cat domains.txt | ./ninjaxfr
+Get informations from Dns Transfer
+	$ cat domains.txt | ./ninjaxfr --exploit
+Save output
+	$ cat domains.txt | ./ninjaxfr --output save.txt
+"""
+
+parser = argparse.ArgumentParser(description="NinjaXFR - Zone Transfer Scan", epilog=epilog, formatter_class=argparse.RawDescriptionHelpFormatter)
+parser.add_argument("-t", "--target", help="Target domain to scan")
+parser.add_argument("-xpl", "--exploit", help="Dump full zone data if AXFR is successful.", action="store_true")
+parser.add_argument("-o", "--output", help="Save results to a specified file.")
+parser.add_argument("-c", "--concurrent", help="Number of concurrent threads (default: 25).", type=int, default=25)
+parser.add_argument("-v", "--verbose", help="Shows detailed information about each step of the scanning process..", action="store_true")
+parser.add_argument("-s", "--silent", help="Skip Banner mode", action="store_true")
+args = parser.parse_args()
+
+VD = "\033[32m"
+VR = "\033[31m"
+AM = "\033[33m"
+AZ = "\033[34m"
+FRT = "\033[1;37m"
+RST = "\033[0m"
+
+if not args.silent:
+	banner = fr"""{AZ}
+          _         _      _  __ __________
+   ____  (_)___    (_)___ | |/ // ____/ __ \
+  / __ \/ / __ \  / / __ `/   // /_  / /_/ /
+ / / / / / / / / / / /_/ /   |/ __/ / _, _/
+/_/ /_/_/_/ /_/_/ /\__,_/_/|_/_/   /_/ |_|
+             /___/
+{FRT}
+	ninjaXFR - DNS Zone Transfer Tool
+	by HunterDep
+	v0.1{RST}
+"""
+	print(banner, file=sys.stderr)
+
+if args.target:
+	domain_arg = [args.target]
+else:
+	domain_arg = sys.stdin.read().split()
+
+def ns_finder(domain):
+	if args.verbose:
+		print(f"{AZ}[VERBOSE]{RST} FINDING NS OF: "+domain, file=sys.stderr)
+	cmd = f"dig ns {domain}"
+	r = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+	ns = re.findall(r"IN\s+NS\s+([a-zA-Z0-9\.\-]+)", r.stdout)
+	for _ in ns:
+		ip = socket.gethostbyname(_)
+		axfr(domain, ip, _)
+
+def axfr(domain, ns_ip, ns_domain):
+	try:
+		xfr = dns.query.xfr(ns_ip, domain, lifetime=10)
+		zone = dns.zone.from_xfr(xfr)
+
+		print(f"\nZone Transfer ({FRT+AM}medium{RST})\nDomain: {domain} NS_SERVER: {ns_domain}\nCommand to use: {FRT+VD}dig axfr {domain} @{ns_domain}{RST}\n")
+
+		if args.exploit:
+			print(f"{AZ}[VERBOSE]{VR} [EXPLOIT]{RST} {domain}", file=sys.stderr)
+			for name, node in zone.nodes.items():
+				print(zone[name].to_text(name))
+
+		if args.output:
+			file = open(args.output, "a+")
+			file.write(domain+"\n")
+			file.close()
+
+	except Exception as e:
+		if args.verbose:
+			print(f"{AZ}[VERBOSE]{RST} {domain}: {e}")
+
+with ThreadPoolExecutor(max_workers=args.concurrent) as executor:
+	executor.map(ns_finder, domain_arg)
