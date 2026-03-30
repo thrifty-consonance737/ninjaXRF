@@ -36,7 +36,7 @@ identify exposed zone data during reconnaissance and security assessments.
 
 ```bash
 git clone https://github.com/yHunterDep/ninjaXRF/
-cd ninjaxfr
+cd ninjaXRF
 pip install -r requirements.txt
 chmod +x ninjaxfr
 ./ninjaxfr -h
